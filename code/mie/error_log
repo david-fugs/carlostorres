@@ -1,0 +1,12 @@
+[13-Sep-2024 01:14:39 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home4/aprendad/equipoct.com.co/code/mie/addmie.php:121
+Stack trace:
+#0 {main}
+  thrown in /home4/aprendad/equipoct.com.co/code/mie/addmie.php on line 121
+[13-Sep-2024 01:17:26 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home4/aprendad/equipoct.com.co/code/mie/addmie.php:121
+Stack trace:
+#0 {main}
+  thrown in /home4/aprendad/equipoct.com.co/code/mie/addmie.php on line 121
+[13-Sep-2024 01:18:47 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home4/aprendad/equipoct.com.co/code/mie/addmie.php:140
+Stack trace:
+#0 {main}
+  thrown in /home4/aprendad/equipoct.com.co/code/mie/addmie.php on line 140
