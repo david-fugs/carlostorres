@@ -36,7 +36,7 @@ $tipo_usu = $_SESSION['tipo_usu'];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>VISION | SOFT</title>
+    <title>CT | SOFT</title>
     <script src="js/64d58efce2.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
@@ -169,8 +169,8 @@ while ($row = mysqli_fetch_array($result)) {
         <td data-label="ESTRATO">' . $row['estrato_mie'] . '</td>
         <td data-label="TELEFONO">' . $row['tel1_mie']. "/ " .$row['tel2_mie'] .'</td>
         <td data-label="EMAIL">' . $row['email_mie'] . '</td>
-        <td data-label="EDITAR"><a href="editMember.php?num_con=' . $row['cc_mie'] . '"><img src="../../img/editar.png" width=28 height=28></a></td>
-        <td data-label="ELIMINAR"><a href="deleteMember.php?num_con=' . $row['cc_mie'] . '"><i class="fa-sharp-duotone fa-solid fa-trash"style="color:red; height:20px; " ></i></a></td>
+        <td data-label="EDITAR"><a href="editMember.php?cc_mie=' . $row['cc_mie'] . '"><img src="../../img/editar.png" width=28 height=28></a></td>
+        <td data-label="ELIMINAR"><a href="deleteMember.php?cc_mie=' . $row['cc_mie'] . '"><i class="fa-sharp-duotone fa-solid fa-trash"style="color:red; height:20px; " ></i></a></td>
 
         </tr>';
     
