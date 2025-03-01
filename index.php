@@ -27,6 +27,7 @@
           $_SESSION['id_usu'] = $row['id_usu'];
           $_SESSION['nombre'] = $row['nombre'];
           $_SESSION['tipo_usu'] = $row['tipo_usu'];
+          $_SESSION['usuario'] = $row['usuario'];
 
           if($row['tipo_usu']==1)
           {

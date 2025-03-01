@@ -166,18 +166,23 @@ date_default_timezone_set("America/Bogota");
                     </div>
 
                     <div class="row">
-                        <div class="col-12 col-sm-2">
+                        <div class="col-12 col-sm-3">
                             <label for="tel1_arr">* CEL:</label>
                             <input type='text' name='tel1_arr' class='form-control' style="text-transform:uppercase;" required />
                         </div>
-                        <div class="col-12 col-sm-2">
+                        <div class="col-12 col-sm-5">
                             <label for="tel2_arr">TEL:</label>
                             <input type='text' name='tel2_arr' class='form-control' style="text-transform:uppercase;" />
                         </div>
-                        <div class="col-12 col-sm-8">
+                        <div class="col-12 col-sm-3">
                             <label for="email_arr">EMAIL:</label>
                             <input type='email' name='email_arr' class='form-control' style="text-transform:lowercase;" />
                         </div>
+                        <div class="col-12 col-sm-3">
+                            <label for="cumpleanios">* FECHA NACIMIENTO:</label>
+                            <input type='date' name='cumpleanios' id="cumpleanios" class='form-control' required />
+                        </div>
+
                     </div>
                 </fieldset>
             </div>

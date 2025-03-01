@@ -13,11 +13,31 @@ header("Content-Type: text/html;charset=utf-8");
 date_default_timezone_set("America/Bogota");
 $cc_mie = $_GET['cc_mie'];
 $row = [];
-if(isset($_GET['cc_mie']))
-{
-   $sql = mysqli_query($mysqli, "SELECT * FROM miembros WHERE cc_mie = '$cc_mie'");
-   $row = mysqli_fetch_array($sql);
+if (isset($_GET['cc_mie'])) {
+    $sql = mysqli_query($mysqli, "SELECT * FROM miembros WHERE cc_mie = '$cc_mie'");
+    $row = mysqli_fetch_array($sql);
 }
+
+function getMunicipioName($id_mun)
+{
+    include("../../conexion.php");
+
+    $query = "SELECT nom_mun FROM municipios WHERE id_mun = '$id_mun'";
+    $result = $mysqli->query($query);
+    $row = $result->fetch_assoc();
+
+    return $row['nom_mun'];
+}
+function getMunicipios($cod_dane_dep)
+{
+    include("../../conexion.php");
+
+    $query = "SELECT * FROM municipios WHERE cod_dane_dep = '$cod_dane_dep'";
+    $result = $mysqli->query($query);
+    return $result;
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -77,8 +97,37 @@ if(isset($_GET['cc_mie']))
             /* Sombreado azul claro */
         }
     </style>
-    <!--SCRIPT PARA VALIDAR SI EL REGISTRO YA ESTÁ EN LA BD-->
     <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const departamentoSelect = document.getElementById("cod_dane_dep");
+            const municipioSelect = document.getElementById("id_mun");
+
+            departamentoSelect.addEventListener("change", function() {
+                const codDaneDep = this.value;
+                municipioSelect.innerHTML = '<option value="">Seleccione el municipio</option>';
+                municipioSelect.disabled = true;
+
+                if (codDaneDep) {
+                    fetch("get_municipios.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            },
+                            body: "cod_dane_dep=" + codDaneDep
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length > 0) {
+                                municipioSelect.disabled = false;
+                                data.forEach(mun => {
+                                    municipioSelect.innerHTML += `<option value="${mun.id_mun}">${mun.nom_mun}</option>`;
+                                });
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                }
+            });
+        });
     </script>
     <script>
         $(document).ready(function() {
@@ -86,31 +135,19 @@ if(isset($_GET['cc_mie']))
         });
     </script>
     <script>
-        function ordenarSelect(id_componente) {
-            var selectToSort = jQuery('#' + id_componente);
-            var optionActual = selectToSort.val();
-            selectToSort.html(selectToSort.children('option').sort(function(a, b) {
-                return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
-            })).val(optionActual);
-        }
-
-        $(document).ready(function() {
-            ordenarSelect('cod_dane_dep');
-            ordenarSelect('id_mun');
-        });
     </script>
 </head>
 
 <body>
 
-    <div class="container" style="margin-top: 29px;" >
+    <div class="container" style="margin-top: 29px;">
 
         <h1><img src='../../img/logo.png' width="171" height="85" class="responsive"><b>REGISTRO DE EQUIPO DE TRABAJO</b></h1>
         <p><i><b>
                     <font size=3 color=#c68615>*Datos obligatorios</i></b></font>
         </p>
 
-        <form id="registroForm" action='processEquipo.php' enctype="multipart/form-data" method="POST">
+        <form id="registroForm" action='updateMembers.php' enctype="multipart/form-data" method="POST">
 
             <div class="row">
                 <div class="col">
@@ -124,7 +161,7 @@ if(isset($_GET['cc_mie']))
                     <div class="row">
                         <div class="col-12 col-sm-3">
                             <label for="cc_mie">* CC:</label>
-                            <input type='number' name='cc_mie' class='form-control' id="cc_mie" value="<?= isset($row['cc_mie']) ? htmlspecialchars($row['cc_mie']) : ''; ?>"  />
+                            <input type='number' name='cc_mie' class='form-control' id="cc_mie" value="<?= isset($row['cc_mie']) ? htmlspecialchars($row['cc_mie']) : ''; ?>" />
                         </div>
                         <div class="col-12 col-sm-5">
                             <label for="nom_ape_mie">* NOMBRES APELLIDOS:</label>
@@ -132,23 +169,29 @@ if(isset($_GET['cc_mie']))
                         </div>
                         <div class="col-12 col-sm-4">
                             <label for="dir_mie">* DIRECCIÓN:</label>
-                            <input type='text' name='dir_mie' id="dir_mie" class='form-control' style="text-transform:uppercase;"  value="<?= isset($row['dir_mie']) ? htmlspecialchars($row['dir_mie']) : ''; ?>" />
+                            <input type='text' name='dir_mie' id="dir_mie" class='form-control' style="text-transform:uppercase;" value="<?= isset($row['dir_mie']) ? htmlspecialchars($row['dir_mie']) : ''; ?>" />
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-12 col-sm-2">
+                        <div class="col-12 col-sm-3">
                             <label for="tel1_arr">* CEL:</label>
                             <input type='text' name='tel1_arr' class='form-control' style="text-transform:uppercase;" value="<?= isset($row['tel1_mie']) ? htmlspecialchars($row['tel1_mie']) : ''; ?>" />
                         </div>
-                        <div class="col-12 col-sm-2">
+                        <div class="col-12 col-sm-5">
                             <label for="tel2_arr">TEL:</label>
-                            <input type='text' name='tel2_arr' class='form-control' style="text-transform:uppercase;"   value="<?= isset($row['tel2_mie']) ? htmlspecialchars($row['tel2_mie']) : ''; ?>"/>
+                            <input type='text' name='tel2_arr' class='form-control' style="text-transform:uppercase;" value="<?= isset($row['tel2_mie']) ? htmlspecialchars($row['tel2_mie']) : ''; ?>" />
                         </div>
-                        <div class="col-12 col-sm-8">
+                        <div class="col-12 col-sm-4">
                             <label for="email_arr">EMAIL:</label>
-                            <input type='email' name='email_arr' class='form-control' style="text-transform:lowercase;"  value="<?= isset($row['email_mie']) ? htmlspecialchars($row['email_mie']) : ''; ?>" />
+                            <input type='email' name='email_arr' class='form-control' style="text-transform:lowercase;" value="<?= isset($row['email_mie']) ? htmlspecialchars($row['email_mie']) : ''; ?>" />
                         </div>
+                        <div class="col-12 col-sm-3">
+                            <label for="cumpleanios">* FECHA NACIMIENTO:</label>
+                            <input type="date" name="cumpleanios" id="cumpleanios" class="form-control"
+                                value="<?= isset($row['cumpleanios']) ? $row['cumpleanios'] : ''; ?>" required />
+                        </div>
+
                     </div>
                 </fieldset>
             </div>
@@ -157,46 +200,58 @@ if(isset($_GET['cc_mie']))
                 <fieldset>
                     <legend>UBICACION</legend>
                     <div class="row">
+                        <div class="col-12 col-sm-2">
+                            <label for="estrato_mie">ESTRATO: </label>
+                            <select class="form-control" name="estrato_mie" id="estrato_mie">
+                                <option value=""></option>
+                                <?php
+                                $estratoSeleccionado = isset($row['estrato_mie']) ? (string)$row['estrato_mie'] : ''; // Convertir a string explícitamente
+                                for ($i = 1; $i <= 10; $i++) {
+                                    $selected = ($estratoSeleccionado === (string)$i) ? 'selected' : ''; // Comparación estricta en string
+                                    echo "<option value='$i' $selected>$i</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+
                         <div class="col-12 col-sm-5">
                             <label for="cod_dane_dep">* DEPARTAMENTO:</label>
-                            <select id="cod_dane_dep" class="form-control" name="cod_dane_dep" required="required">
-                                <option value=""></option>
+                            <?php
+                            $selected_dep = isset($row['cod_dane_dep']) ? $row['cod_dane_dep'] : '';
+                            $selected_mun = isset($row['id_mun']) ? $row['id_mun'] : '';
+                            ?>
+
+                            <select id="cod_dane_dep" class="form-control" name="cod_dane_dep" required>
+                                <option value="">Seleccione un departamento</option>
                                 <?php
                                 $sql = $mysqli->prepare("SELECT * FROM departamentos");
                                 if ($sql->execute()) {
                                     $g_result = $sql->get_result();
+                                    while ($dep = $g_result->fetch_array()) {
+                                        $selected = ($dep['cod_dane_dep'] == $selected_dep) ? 'selected' : '';
+                                        echo "<option value='{$dep['cod_dane_dep']}' $selected>{$dep['nom_dep']}</option>";
+                                    }
                                 }
-                                while ($row = $g_result->fetch_array()) {
-                                ?>
-                                    <option value="<?php echo $row['cod_dane_dep'] ?>"><?php echo $row['nom_dep'] ?></option>
-                                <?php
-                                }
-                                $mysqli->close();
                                 ?>
                             </select>
                         </div>
+
                         <div class="col-12 col-sm-5">
                             <label for="id_mun">* MUNICIPIOS:</label>
-                            <select id="id_mun" name="id_mun" class="form-control" disabled="disabled" required="required">
-                                <option value="">* SELECCIONE EL MUNICIPIO:</option>
+                            <select id="id_mun" name="id_mun" class="form-control" required <?= empty($selected_dep) ? 'disabled' : '' ?>>
+                                <option value="">Seleccione el municipio</option>
+                                <?php
+                                if (!empty($selected_dep)) {
+                                    $result = getMunicipios($selected_dep);
+                                    while ($mun = $result->fetch_array()) {
+                                        $selected = ($mun['id_mun'] == $selected_mun) ? 'selected' : '';
+                                        echo "<option value='{$mun['id_mun']}' $selected>{$mun['nom_mun']}</option>";
+                                    }
+                                }
+                                ?>
                             </select>
                         </div>
-                        <div class="col-12 col-sm-2">
-                            <label for="estrato_mie">ESTRATO:</label>
-                            <select class="form-control" name="estrato_mie" id="estrato_mie">
-                                <option value=""></option>
-                                <option value=1>1</option>
-                                <option value=2>2</option>
-                                <option value=3>3</option>
-                                <option value=4>4</option>
-                                <option value=5>5</option>
-                                <option value=6>6</option>
-                                <option value=7>7</option>
-                                <option value=8>8</option>
-                                <option value=9>9</option>
-                                <option value=10>10</option>
-                            </select>
-                        </div>
+                        <input type="hidden" name="cc_mie" value="<?= $cc_mie ?>">
                     </div>
                     <script>
                         //$('#doc_acud').select2();
@@ -208,9 +263,9 @@ if(isset($_GET['cc_mie']))
             </div>
 
             <!-- Botones para enviar o resetear -->
-            <button type="submit" id="submit-btn" class="btn btn-outline-warning" disabled>
+            <button type="submit" id="submit-btn" class="btn btn-outline-warning">
                 <span class="spinner-border spinner-border-sm"></span>
-                INGRESAR REGISTRO
+                ACTUALIZAR REGISTRO
             </button>
 
             <button type="reset" class="btn btn-outline-dark" role='link' onclick="history.back();" type='reset'>
@@ -221,18 +276,6 @@ if(isset($_GET['cc_mie']))
 </body>
 <script src="../../js/jquery-3.1.1.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#cod_dane_dep').on('change', function() {
-            if ($('#cod_dane_dep').val() == "") {
-                $('#id_mun').empty();
-                $('<option value = "">Seleccione un municipio</option>').appendTo('#id_mun');
-                $('#id_mun').attr('disabled', 'disabled');
-            } else {
-                $('#id_mun').removeAttr('disabled', 'disabled');
-                $('#id_mun').load('modules_get.php?cod_dane_dep=' + $('#cod_dane_dep').val());
-            }
-        });
-    });
 </script>
 
 </html>
