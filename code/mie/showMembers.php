@@ -247,15 +247,15 @@ $liderSeleccionado = isset($_GET['cc_lider']) ? $_GET['cc_lider'] : ''; // Valor
     $i = 1;
     while ($row = mysqli_fetch_array($result)) {
         // Formatear los valores como moneda
-        echo '
-        <tr>
+        while ($row = mysqli_fetch_array($result)) {
+    echo '<tr>
         <td data-label="CEDULA">' . $row['cc_mie'] . '</td>
         <td style="text-transform:uppercase;" data-label="NOMBRE">' . $row['nom_ape_mie'] . '</td>
         <td data-label="DIRECCION">' . $row['dir_mie'] . '</td>
         <td data-label="DEPARTAMENTO">' . getDepartamentName($row['cod_dane_dep']) . '</td>
         <td data-label="MUNICIPIO">' . getMunicipioName($row['id_mun']) . '</td>
         <td data-label="ESTRATO">' . $row['estrato_mie'] . '</td>
-        <td data-label="TELEFONO">' . $row['tel1_mie'] . "/ " . $row['tel2_mie'] . '</td>
+        <td data-label="TELEFONO">' . $row['tel1_mie'] . (!empty($row['tel2_mie']) ? ' / ' . $row['tel2_mie'] : '') . '</td>
         <td data-label="CUMPLEAÑOS">' . $row['cumpleanios'] . '</td>
         <td data-label="REFERIDO">' . getNameLeader($row['id_usu_alta_mie']) . '</td>
         <td data-label="EMAIL">' . strtolower($row['email_mie']) . '</td>
