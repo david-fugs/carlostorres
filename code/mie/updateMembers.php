@@ -1,5 +1,4 @@
 <?php 
-    print_r($_POST);
     include("../../conexion.php");
     session_start();
     
