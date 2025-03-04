@@ -42,7 +42,7 @@ if (isset($_GET['delete'])) {
 }
 function getNameLeader($cc_lider)
 {
-    if($cc_lider == 1){
+    if ($cc_lider == 1) {
         return "ADMINISTRADOR";
     }
     include("../../conexion.php");
@@ -98,12 +98,14 @@ $liderSeleccionado = isset($_GET['cc_lider']) ? $_GET['cc_lider'] : ''; // Valor
 
 
     <style>
-        th{
+        th {
             font-size: 15px;
         }
-        td{
+
+        td {
             font-size: 15px;
         }
+
         .responsive {
             max-width: 100%;
             height: auto;
@@ -248,7 +250,7 @@ $liderSeleccionado = isset($_GET['cc_lider']) ? $_GET['cc_lider'] : ''; // Valor
     while ($row = mysqli_fetch_array($result)) {
         // Formatear los valores como moneda
         while ($row = mysqli_fetch_array($result)) {
-    echo '<tr>
+            echo '<tr>
         <td data-label="CEDULA">' . $row['cc_mie'] . '</td>
         <td style="text-transform:uppercase;" data-label="NOMBRE">' . $row['nom_ape_mie'] . '</td>
         <td data-label="DIRECCION">' . $row['dir_mie'] . '</td>
@@ -268,9 +270,9 @@ $liderSeleccionado = isset($_GET['cc_lider']) ? $_GET['cc_lider'] : ''; // Valor
             </td>   
         </tr>';
 
-        $i++;
+            $i++;
+        }
     }
-
     echo '</table>
 </div>';
     ?>
