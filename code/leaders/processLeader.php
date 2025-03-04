@@ -36,8 +36,7 @@ if ($password == "") {
 $password_encrypt = sha1($password);
 $sql_insert = "INSERT INTO lideres (cc_lider,nom_ape,tipo_usu,cumpleanios,telefono,email,profesion,postgrados,direccion,ultimo_trabajo) VALUES ('$cc', '$nom_ape', '$cargo', '$cumpleanios', '$telefono', '$email', '$profesion', '$postgrados', '$direccion', '$ultimo_trabajo')";
 if (mysqli_query($mysqli, $sql_insert)) {
-    $sql_insert = "INSERT INTO usuarios (usuario,nombre,password,tipo_usu ) VALUES ('$cc', '$nom_ape', '}
-$password_encrypt ', '$cargo')";
+    $sql_insert = "INSERT INTO usuarios (usuario,nombre,password,tipo_usu ) VALUES ('$cc', '$nom_ape', '$password_encrypt', '$cargo')";
     if (mysqli_query($mysqli, $sql_insert)) {
         echo "<script>
                 alert('Registro insertado correctamente'); 

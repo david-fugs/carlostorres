@@ -19,7 +19,19 @@ if (isset($_GET['delete'])) {
     $usuario = $_GET['delete'];
     deleteMember($usuario);
 }
+function getLeaderName($cc_lider)
+{
+    if($cc_lider == 1){
+        return "ADMINISTRADOR";
+    }
+    include("../../conexion.php");
 
+    $query = "SELECT nom_ape FROM lideres WHERE cc_lider = '$cc_lider'";
+    $result = $mysqli->query($query);
+    $row = $result->fetch_assoc();
+
+    return $row['nom_ape'];
+}
 function deleteMember($usuario)
 {
     global $mysqli; // Asegurar acceso a la conexión global
@@ -145,8 +157,8 @@ $cargo = isset($_GET['cargo']) ? trim($_GET['cargo']) : '';
 
 
     // Base de las consultas individuales
-    $queryLideres = "SELECT 'LIDER' AS cargo, cc_lider AS cc, nom_ape AS nombre, cumpleanios FROM lideres WHERE 1=1";
-    $queryMiembros = "SELECT 'MIEMBRO' AS cargo, cc_mie AS cc, nom_ape_mie AS nombre, cumpleanios FROM miembros WHERE 1=1";
+    $queryLideres = "SELECT 'LIDER' AS cargo, cc_lider AS cc, nom_ape AS nombre, cumpleanios, NULL AS id_usu_alta FROM lideres WHERE 1=1";
+    $queryMiembros = "SELECT 'MIEMBRO' AS cargo, cc_mie AS cc, nom_ape_mie AS nombre, cumpleanios,  id_usu_alta_mie AS id_usu_alta FROM miembros WHERE 1=1";
 
     // Aplicar filtros si el usuario no es de tipo 1
     if ($tipoUsuario != 1) {
@@ -212,17 +224,25 @@ $cargo = isset($_GET['cargo']) ? trim($_GET['cargo']) : '';
                       <th>CEDULA</th>
                       <th>NOMBRE</th>
                       <th>CUMPLEAÑOS</th>
+                      <th>REFERIDO DE </th>
                       <th>CARGO</th>
                   </tr>
               </thead>
               <tbody>";
-
+    $referido = '';
     while ($row = mysqli_fetch_array($result)) {
+        if ($row['cargo'] == 'LIDER') {
+            $referido = 'N/A';
+        }
+        if ($row['cargo'] == 'MIEMBRO') {
+            $referido =  getLeaderName($row['id_usu_alta']);
+        }
         echo '
 <tr>
   <td data-label="CEDULA">' . $row['cc'] . '</td>
   <td data-label="NOMBRE">' . $row['nombre'] . '</td>
   <td data-label="CUMPLEAÑOS">' . $row['cumpleanios'] . '</td>
+    <td data-label="CUMPLEAÑOS">' .  $referido . '</td>
   <td data-label="CARGO">' . $row['cargo'] . '</td>
 </tr>';
     }

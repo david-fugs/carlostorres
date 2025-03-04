@@ -40,7 +40,19 @@ if (isset($_GET['delete'])) {
     $cc_mie = $_GET['delete'];
     deleteMember($cc_mie);
 }
+function getNameLeader($cc_lider)
+{
+    if($cc_lider == 1){
+        return "ADMINISTRADOR";
+    }
+    include("../../conexion.php");
 
+    $query = "SELECT nom_ape FROM lideres WHERE cc_lider = '$cc_lider'";
+    $result = $mysqli->query($query);
+    $row = $result->fetch_assoc();
+
+    return $row['nom_ape'];
+}
 function deleteMember($cc_mie)
 {
     global $mysqli; // Asegurar acceso a la conexión global
@@ -86,6 +98,12 @@ $liderSeleccionado = isset($_GET['cc_lider']) ? $_GET['cc_lider'] : ''; // Valor
 
 
     <style>
+        th{
+            font-size: 15px;
+        }
+        td{
+            font-size: 15px;
+        }
         .responsive {
             max-width: 100%;
             height: auto;
@@ -133,18 +151,18 @@ $liderSeleccionado = isset($_GET['cc_lider']) ? $_GET['cc_lider'] : ''; // Valor
             <form action="showMembers.php" method="get" class="form">
                 <input name="cc_mie" type="text" placeholder="Cedula Miembro" value="<?= htmlspecialchars($cc) ?>">
                 <input name="nom_ape_mie" type="text" placeholder="Nombre Miembro" value="<?= htmlspecialchars($nombre) ?>">
-                <?php  if($_SESSION['tipo_usu'] == 1) :?>
-                <select name="cc_lider" value="<?= htmlspecialchars($lider) ?>">
-                    <option value="">Seleccione un líder</option>
-                    <?php
-                    include("../../conexion.php");
-                    $lideres = getLideres();
-                    while ($lider = $lideres->fetch_assoc()) {
-                        $selected = ($lider['cc_lider'] == $liderSeleccionado) ? 'selected' : '';
-                        echo "<option value='{$lider['cc_lider']}' $selected>{$lider['nom_ape']}</option>";
-                    }
-                    ?>
-                </select>
+                <?php if ($_SESSION['tipo_usu'] == 1) : ?>
+                    <select name="cc_lider" value="<?= htmlspecialchars($lider) ?>">
+                        <option value="">Seleccione un líder</option>
+                        <?php
+                        include("../../conexion.php");
+                        $lideres = getLideres();
+                        while ($lider = $lideres->fetch_assoc()) {
+                            $selected = ($lider['cc_lider'] == $liderSeleccionado) ? 'selected' : '';
+                            echo "<option value='{$lider['cc_lider']}' $selected>{$lider['nom_ape']}</option>";
+                        }
+                        ?>
+                    </select>
                 <?php endif; ?>
 
                 <input value="Realizar Busqueda" type="submit">
@@ -207,6 +225,7 @@ $liderSeleccionado = isset($_GET['cc_lider']) ? $_GET['cc_lider'] : ''; // Valor
                             <th>ESTRATO</th>
                             <th>TELEFONO</th>
                             <th>CUMPLEAÑOS </th>
+                            <th>REFERIDO DE </th>
                             <th>EMAIL</th>
                             <th>EDITAR</th>
                             <th>ELIMINAR</th>
@@ -238,7 +257,8 @@ $liderSeleccionado = isset($_GET['cc_lider']) ? $_GET['cc_lider'] : ''; // Valor
         <td data-label="ESTRATO">' . $row['estrato_mie'] . '</td>
         <td data-label="TELEFONO">' . $row['tel1_mie'] . "/ " . $row['tel2_mie'] . '</td>
         <td data-label="CUMPLEAÑOS">' . $row['cumpleanios'] . '</td>
-        <td data-label="EMAIL">' . $row['email_mie'] . '</td>
+        <td data-label="REFERIDO">' . getNameLeader($row['id_usu_alta_mie']) . '</td>
+        <td data-label="EMAIL">' . strtolower($row['email_mie']) . '</td>
         <td data-label="EDITAR"><a href="editMember.php?cc_mie=' . $row['cc_mie'] . '"><img src="../../img/editar.png" width=28 height=28></a></td>
         <td data-label="ELIMINAR">
                 <a href="?delete=' . $row['cc_mie'] . '" 
