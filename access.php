@@ -25,20 +25,7 @@ $tipo_usu     = $_SESSION['tipo_usu'];
   <link href="fontawesome/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="menu/style.css" />
 </head>
-<style>
-  .menu_items.submenu {
-    display: block !important; /* Asegura que los submenús siempre estén visibles */
-    opacity: 1 !important; /* Asegura que no haya efectos de ocultamiento */
-    visibility: visible !important;
-    height: auto !important;
-}
-.menu_items.submenu {
-    display: none;
-}
-.menu_items.submenu {
-    display: block;
-}
-</style>
+
 <body>
   <!-- navbar -->
   <nav class="navbar">
@@ -199,10 +186,8 @@ $tipo_usu     = $_SESSION['tipo_usu'];
     </nav>
   <?php } ?>
 
-
-
   <!-- JavaScript -->
-  <!-- <script src="menu/script.js"></script> -->
+  <script src="menu/script.js"></script>
 </body>
 
 </html>
