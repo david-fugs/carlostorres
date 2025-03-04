@@ -249,7 +249,6 @@ $liderSeleccionado = isset($_GET['cc_lider']) ? $_GET['cc_lider'] : ''; // Valor
     $i = 1;
     while ($row = mysqli_fetch_array($result)) {
         // Formatear los valores como moneda
-        while ($row = mysqli_fetch_array($result)) {
             echo '<tr>
         <td data-label="CEDULA">' . $row['cc_mie'] . '</td>
         <td style="text-transform:uppercase;" data-label="NOMBRE">' . $row['nom_ape_mie'] . '</td>
@@ -272,7 +271,7 @@ $liderSeleccionado = isset($_GET['cc_lider']) ? $_GET['cc_lider'] : ''; // Valor
 
             $i++;
         }
-    }
+    
     echo '</table>
 </div>';
     ?>
