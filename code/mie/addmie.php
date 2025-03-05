@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_usu'])) {
     header("Location: ../../index.php");
     exit();
 }
-
+$tipo_usu = $_SESSION['tipo_usu'];
 include("../../conexion.php");
 
 header("Content-Type: text/html;charset=utf-8");
@@ -31,6 +31,9 @@ date_default_timezone_set("America/Bogota");
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <style>
+        body{
+            margin-top: 50px;
+        }
         .responsive {
             max-width: 100%;
             height: auto;
@@ -130,8 +133,8 @@ date_default_timezone_set("America/Bogota");
     </script>
 </head>
 
-<body>
-
+<body >
+<?php include('../../layout/navbar.php'); ?>
     <div class="container">
 
         <h1><img src='../../img/logo.png' width="171" height="85" class="responsive"><b>REGISTRO DE EQUIPO DE TRABAJO</b></h1>
@@ -209,7 +212,7 @@ date_default_timezone_set("America/Bogota");
                                 ?>
                             </select>
                         </div>
-                        <div class="col-12 col-sm-5">
+                        <div class="col-12 col-sm-5 mt-2">
                             <label for="id_mun">* MUNICIPIOS:</label>
                             <select id="id_mun" name="id_mun" class="form-control" disabled="disabled" required="required">
                                 <option value="">* SELECCIONE EL MUNICIPIO:</option>

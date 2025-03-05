@@ -4,7 +4,7 @@ include("../../conexion.php");
 if (!isset($_SESSION['id_usu'])) {
     header("Location: ../../index.php");
 }
-
+$tipo_usu = $_SESSION['tipo_usu'];
 function tipoUsuario($tipo_usu)
 {
     if ($tipo_usu == 1) {
@@ -146,6 +146,7 @@ $nombre = isset($_GET['nom_ape_mie']) ? trim($_GET['nom_ape_mie']) : '';
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"></script>
+    <?php include('../../layout/navbar.php'); ?>
 
     <center style="margin-top: 20px;">
         <img src='../../img/logo.png' width="300" height="212" class="responsive">

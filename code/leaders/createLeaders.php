@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_usu'])) {
     header("Location: ../../index.php");
     exit();
 }
-
+$tipo_usu = $_SESSION['tipo_usu'];
 include("../../conexion.php");
 
 header("Content-Type: text/html;charset=utf-8");
@@ -74,6 +74,7 @@ date_default_timezone_set("America/Bogota");
 </head>
 
 <body>
+<?php include('../../layout/navbar.php'); ?>
     <div class="container" style="margin-top: 35px;">
 
         <h1><img src='../../img/logo.png' width="171" height="85" class="responsive"><b>REGISTRO DE EQUIPO DE LIDERES </b></h1>

@@ -33,11 +33,6 @@ $tipo_usu     = $_SESSION['tipo_usu'];
       <i class="bx bx-menu" id="sidebarOpen"></i>
       <img src="img/logo.png" alt=""></i>EQUIPO CT | SOFT
     </div>
-
-    <!--<div class="search_bar">
-        <input type="text" placeholder="Buscar..." />
-      </div>-->
-
     <div class="navbar_content">
       <i class="bi bi-grid"></i>
       <i class="fa-solid fa-sun" id="darkLight"></i><!--<i class='bx bx-sun' id="darkLight"></i>-->
@@ -45,9 +40,6 @@ $tipo_usu     = $_SESSION['tipo_usu'];
       <img src="img/logo.png" alt="" class="profile" />
     </div>
   </nav>
-
-  <!--************************INICIA MENÚ ADMINISTRADOR************************-->
-
   <?php if ($tipo_usu == 1) { ?>
     <!-- sidebar -->
     <nav class="sidebar">
@@ -62,7 +54,6 @@ $tipo_usu     = $_SESSION['tipo_usu'];
               <span class="navlink">Equipo</span>
               <i class="bx bx-chevron-right arrow-left"></i>
             </div>
-
             <ul class="menu_items submenu">
               <a href="code/mie/addmie.php" class="nav_link sublink">Agregar Referido</a>
               <a href="code/mie/showMembers.php" class="nav_link sublink">Consultar Referido</a>
@@ -92,7 +83,6 @@ $tipo_usu     = $_SESSION['tipo_usu'];
               <a href="code/birthday/showBirthday.php" class="nav_link sublink">Ver Cumpleaños</a>
             </ul>
           </li>
-
           <hr style="border: 1px solid #F3840D; border-radius: 5px;">
           <li class="item">
             <div href="#" class="nav_link submenu_item">
@@ -107,7 +97,6 @@ $tipo_usu     = $_SESSION['tipo_usu'];
               <a href="reset-password.php" class="nav_link sublink">Cambiar Contraseña</a>
             </ul>
           </li>
-
           <!-- Sidebar Open / Close -->
           <div class="bottom_content">
             <div class="bottom expand_sidebar">
@@ -122,8 +111,6 @@ $tipo_usu     = $_SESSION['tipo_usu'];
       </div>
     </nav>
   <?php } ?>
-
-
   <!--************************MENÚ ENCUESTAS DE CAMPO************************-->
   <?php if ($tipo_usu == 2) { ?>
     <!-- sidebar -->
@@ -170,7 +157,6 @@ $tipo_usu     = $_SESSION['tipo_usu'];
               <a href="reset-password.php" class="nav_link sublink">Cambiar Contraseña</a>
             </ul>
           </li>
-
           <!-- Sidebar Open / Close -->
           <div class="bottom_content">
             <div class="bottom expand_sidebar">
@@ -185,7 +171,6 @@ $tipo_usu     = $_SESSION['tipo_usu'];
       </div>
     </nav>
   <?php } ?>
-
   <!-- JavaScript -->
   <script src="menu/script.js"></script>
 </body>

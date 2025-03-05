@@ -59,9 +59,13 @@
         .modal-body {
             color: #721c24;
         }
+        body{
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
+<?php include('layout/navbar.php'); ?>
     <center>
         <img src='img/logo.png' width="300" height="212" class="responsive">
     </center>
